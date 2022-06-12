@@ -114,7 +114,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias c="code ."
-alias ls="ls -lAFh"
+alias ls="exa -laFh --git"
+alias exa="exa -laFh --git"
 
 # Load NVM
 export NVM_DIR="$HOME/.nvm"
