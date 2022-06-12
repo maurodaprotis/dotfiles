@@ -12,3 +12,9 @@ I'm learning about dofiles
 - Trackpad 
 - .zshrc
 - Git (config and SSH)
+- Add already installed apps to brew
+    #brew "item2"
+    #brew "brave-browser"
+    #brew "visual-studio-code"
+    #brew "insomnia"
+    #brew "rectangle"
