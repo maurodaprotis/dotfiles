@@ -25,6 +25,12 @@ brew "pyenv"
 brew "zsh-autosuggestions"
 # The official Doppler CLI for managing your secrets
 brew "dopplerhq/cli/doppler"
+# Docker
+brew "docker"
+# Docker Compose
+brew "docker-compose"
+# Warp
+brew "warp"
 mas "Hidden Bar", id: 1452453066
 mas "Keynote", id: 409183694
 mas "NordVPN", id: 905953485
