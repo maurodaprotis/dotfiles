@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "notion": {
+      "url": "https://mcp.notion.com/mcp"
+    },
+    "Figma": {
+      "url": "https://mcp.figma.com/mcp",
+      "headers": {}
+    },
+    "posthog": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://mcp.posthog.com/mcp",
+        "--header",
+        "Authorization:${POSTHOG_AUTH_HEADER}"
+      ],
+      "env": {
+        "POSTHOG_AUTH_HEADER": "Bearer YOUR_POSTHOG_TOKEN_HERE"
+      }
+    },
+    "Linear": {
+      "url": "https://mcp.linear.app/mcp",
+      "headers": {}
+    },
+    "github": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer YOUR_GITHUB_COPILOT_TOKEN_HERE"
+      }
+    },
+    "Playwright": {
+      "command": "npx @playwright/mcp@latest",
+      "env": {},
+      "args": []
+    }
+  }
+}

@@ -1,0 +1,5 @@
+.DS_Store
+
+# Never commit filled-in secrets
+# (templates are safe — they have placeholder tokens)
+*.local

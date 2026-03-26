@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/settings.json
+.vscode/launch.json
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+
+# Claude Code
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
