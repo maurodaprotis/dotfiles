@@ -77,13 +77,42 @@ echo "── Claude Code ──"
 symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
 echo ""
 
-# ─── 5. Templates (secrets — copy, don't symlink) ───────────────────
+# ─── 5. SSH ─────────────────────────────────────────────────────────
+echo "── SSH ──"
+symlink "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
+echo ""
+
+# ─── 6. Fonts ───────────────────────────────────────────────────────
+echo "── Fonts ──"
+if [[ "$(uname)" == "Darwin" ]]; then
+  font_dir="$HOME/Library/Fonts"
+else
+  font_dir="$HOME/.local/share/fonts"
+fi
+mkdir -p "$font_dir"
+for font in "$DOTFILES_DIR"/fonts/*.otf; do
+  target="$font_dir/$(basename "$font")"
+  if [[ -f "$target" ]]; then
+    echo "  ✓ $(basename "$font") (already installed)"
+  else
+    cp "$font" "$target"
+    echo "  → $(basename "$font")"
+  fi
+done
+echo ""
+
+# ─── 7. Templates (secrets — copy, don't symlink) ───────────────────
 echo "── Templates (files with secrets) ──"
 copy_template "$DOTFILES_DIR/templates/npmrc.template" "$HOME/.npmrc"
 copy_template "$DOTFILES_DIR/templates/mcp.json.template" "$HOME/.cursor/mcp.json"
 echo ""
 
-# ─── 6. AI Skills & Agents ──────────────────────────────────────────
+# ─── 8. macOS Defaults ─────────────────────────────────────────────
+if [[ "$(uname)" == "Darwin" ]]; then
+  "$DOTFILES_DIR/macos/defaults.sh"
+fi
+
+# ─── 9. AI Skills & Agents ──────────────────────────────────────────
 echo "── AI Skills & Agents (global) ──"
 "$DOTFILES_DIR/ai/setup.sh" --all "$HOME"
 echo ""
