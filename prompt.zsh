@@ -90,12 +90,6 @@ _prompt_git() {
   local branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
   [[ -z "$branch" ]] && return
 
-  local remote_url=$(git remote get-url origin 2>/dev/null)
-  if [[ -n "$remote_url" ]]; then
-    local origin_user=$(echo "$remote_url" | sed -E 's#(.*github\.com[:/])([^/]+)/.*#\2#')
-    [[ "$origin_user" != "$remote_url" && -n "$origin_user" ]] && branch="${origin_user}/${branch}"
-  fi
-
   local git_out="${_P_BG} ${_P_FG_YELLOW}${_ICON_BRANCH} ${branch}${_P_RESET} "
 
   # Diff stats
