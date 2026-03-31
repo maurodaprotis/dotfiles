@@ -8,6 +8,9 @@ bindkey '\e[B' history-search-forward
 
 source $ZSH/oh-my-zsh.sh
 
+# Remove oh-my-zsh aliases that conflict with real CLIs
+unalias hs 2>/dev/null  # history plugin shadows HubSpot CLI
+
 # ─── Editor ──────────────────────────────────────────────────────────
 export EDITOR='cursor'
 
