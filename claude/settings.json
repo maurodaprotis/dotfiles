@@ -1,3 +1,5 @@
 {
-  "effortLevel": "medium"
+  "effortLevel": "medium",
+  "includeCoAuthoredBy": false,
+  "model": "sonnet"
 }
