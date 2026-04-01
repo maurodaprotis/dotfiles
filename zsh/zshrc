@@ -66,3 +66,6 @@ fi
 _DOTFILES_DIR="$(cd "$(dirname "$_DOTFILES_ZSHRC")/.." && pwd)"
 source "$_DOTFILES_DIR/prompt.zsh"
 unset _DOTFILES_ZSHRC _DOTFILES_DIR
+
+# bun completions
+[ -s "/Users/maurodaprotis/.bun/_bun" ] && source "/Users/maurodaprotis/.bun/_bun"
