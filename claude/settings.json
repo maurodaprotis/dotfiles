@@ -1,4 +1,8 @@
 {
   "includeCoAuthoredBy": false,
-  "effortLevel": "medium"
+  "effortLevel": "medium",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/maurodaprotis/.claude/statusline-command.sh"
+  }
 }
