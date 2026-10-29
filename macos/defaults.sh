@@ -30,6 +30,16 @@ defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
 
 echo "  ✓ Keyboard"
 
+# ─── Trackpad ─────────────────────────────────────────────────────────
+
+# Tracking speed (slider max: 3.0)
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2.5
+
+# Light click
+defaults write com.apple.AppleMultitouchTrackpad FirstClickThreshold -int 0
+
+echo "  ✓ Trackpad"
+
 # ─── Finder ───────────────────────────────────────────────────────────
 
 # Show status bar
