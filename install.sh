@@ -116,7 +116,7 @@ fi
 echo "── AI Skills & Agents (global) ──"
 "$DOTFILES_DIR/ai/setup.sh" --all "$HOME"
 symlink "$DOTFILES_DIR/ai/skills-lock.json" "$HOME/.agents/.skill-lock.json"
-symlink "$DOTFILES_DIR/ai/AGENTS.md" "$HOME/.claude/CLAUDE.md"
+copy_template "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 symlink "$DOTFILES_DIR/ai/AGENTS.md" "$HOME/.codex/AGENTS.md"
 echo ""
 
