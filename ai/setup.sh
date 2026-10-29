@@ -114,6 +114,8 @@ link_agents_alias() {
   local alias_name="$1"
   local target="$PROJECT_DIR/$alias_name"
 
+  [ -e "$PROJECT_DIR/AGENTS.md" ] || return 0
+
   if [ -L "$target" ] || [ -f "$target" ]; then
     rm "$target"
   fi

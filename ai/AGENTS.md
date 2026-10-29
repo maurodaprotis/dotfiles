@@ -1,11 +1,4 @@
-# Agents
+# Global instructions
 
-You are an AI assistant working on this project. Follow the instructions in the skills and agents directories.
-
-## Skills
-
-Skills are reusable instructions for common tasks. See the `skills/` directory.
-
-## Agents
-
-Agents are specialized personas for specific workflows. See the `agents/` directory.
+- When writing code comments, be as concise as possible. Don't include ticket numbers or exposition explaining how the decision was made, focus only on what the code accomplishes
+- When replying to a PR comment, keep it to one or two lines. State what changed or the answer — no restating the problem, no rationale essays, no code walkthroughs unless asked.
