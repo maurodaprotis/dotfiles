@@ -88,6 +88,28 @@ link_dir() {
   ln -s "$relative_source" "$target"
 }
 
+# Link each skill individually so tool-managed skills can live alongside
+link_skills() {
+  local target="$1"
+  local skill name
+
+  [ -L "$target" ] && rm "$target"
+  mkdir -p "$target"
+
+  # Drop links to skills removed from the repo
+  find "$target" -maxdepth 1 -type l ! -exec test -e {} \; -delete
+
+  for skill in "$SKILLS_SOURCE"/*/; do
+    skill="${skill%/}"
+    name="$(basename "$skill")"
+    if [ -e "$target/$name" ] && [ ! -L "$target/$name" ]; then
+      echo "  skip $name: $target/$name already exists"
+      continue
+    fi
+    ln -sfn "$(relative_path "$skill" "$target")" "$target/$name"
+  done
+}
+
 link_agents_alias() {
   local alias_name="$1"
   local target="$PROJECT_DIR/$alias_name"
@@ -101,38 +123,37 @@ link_agents_alias() {
 
 setup_project_agents_dir() {
   link_dir "$AGENTS_SOURCE" "$PROJECT_DIR/.agents/agents"
-  link_dir "$SKILLS_SOURCE" "$PROJECT_DIR/.agents/skills"
 }
 
 setup_cursor() {
-  link_dir "$SKILLS_SOURCE" "$PROJECT_DIR/.cursor/skills"
+  link_skills "$PROJECT_DIR/.cursor/skills"
   link_dir "$AGENTS_SOURCE" "$PROJECT_DIR/.cursor/agents"
   echo "  Cursor configured"
 }
 
 setup_claude() {
-  link_dir "$SKILLS_SOURCE" "$PROJECT_DIR/.claude/skills"
+  link_skills "$PROJECT_DIR/.claude/skills"
   link_dir "$AGENTS_SOURCE" "$PROJECT_DIR/.claude/agents"
   link_agents_alias "CLAUDE.md"
   echo "  Claude Code configured"
 }
 
 setup_gemini() {
-  link_dir "$SKILLS_SOURCE" "$PROJECT_DIR/.gemini/skills"
+  link_skills "$PROJECT_DIR/.gemini/skills"
   link_dir "$AGENTS_SOURCE" "$PROJECT_DIR/.gemini/agents"
   link_agents_alias "GEMINI.md"
   echo "  Gemini configured"
 }
 
 setup_codex() {
-  link_dir "$SKILLS_SOURCE" "$PROJECT_DIR/.codex/skills"
+  link_skills "$PROJECT_DIR/.codex/skills"
   link_dir "$AGENTS_SOURCE" "$PROJECT_DIR/.codex/agents"
   echo "  Codex configured"
 }
 
 setup_opencode() {
   link_dir "$AGENTS_SOURCE" "$PROJECT_DIR/.opencode/agents"
-  link_dir "$SKILLS_SOURCE" "$PROJECT_DIR/.opencode/skills"
+  link_skills "$PROJECT_DIR/.opencode/skills"
   echo "  OpenCode configured"
 }
 
