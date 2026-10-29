@@ -115,6 +115,7 @@ fi
 # ─── 9. AI Skills & Agents ──────────────────────────────────────────
 echo "── AI Skills & Agents (global) ──"
 "$DOTFILES_DIR/ai/setup.sh" --all "$HOME"
+symlink "$DOTFILES_DIR/ai/skills-lock.json" "$HOME/.agents/.skill-lock.json"
 echo ""
 
 # ─── Done ────────────────────────────────────────────────────────────
