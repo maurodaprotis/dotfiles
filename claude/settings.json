@@ -1,8 +1,10 @@
 {
   "includeCoAuthoredBy": false,
-  "effortLevel": "medium",
+  "model": "claude-fable-5[1m]",
   "statusLine": {
     "type": "command",
     "command": "bash /Users/maurodaprotis/.claude/statusline-command.sh"
-  }
+  },
+  "effortLevel": "high",
+  "tui": "fullscreen"
 }
