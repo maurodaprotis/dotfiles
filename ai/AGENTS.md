@@ -5,7 +5,7 @@
 
 ## Communication
 
-Write all responses to me in English, using ASD-STE100 Simplified Technical English (STE):
+When writing to me in English, use ASD-STE100 Simplified Technical English (STE):
 
 - Short sentences: max 20 words for instructions, max 25 for descriptions.
 - One instruction per sentence. Put steps in a numbered list.
