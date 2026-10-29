@@ -1,31 +1,42 @@
+# ─── Homebrew ────────────────────────────────────────────────────────
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # ─── Oh My Zsh ────────────────────────────────────────────────────────
 export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME=""  # prompt.zsh handles the prompt
 
-plugins=(history git genpass)
+plugins=(git)
 
 bindkey '\e[A' history-search-backward
 bindkey '\e[B' history-search-forward
 
 source $ZSH/oh-my-zsh.sh
 
-# Remove oh-my-zsh aliases that conflict with real CLIs
-unalias hs 2>/dev/null  # history plugin shadows HubSpot CLI
-
 # ─── Editor ──────────────────────────────────────────────────────────
-export EDITOR='cursor'
+if command -v cursor >/dev/null; then
+  export EDITOR='cursor --wait'
+else
+  export EDITOR='nvim'
+fi
 
 # ─── Aliases ─────────────────────────────────────────────────────────
+command -v batcat >/dev/null && alias bat=batcat  # Ubuntu package name
 alias c="code ."
-alias ls="exa -laFh --git"
-alias exa="exa -laFh --git"
+alias ls="eza -lahF --git"
+
+# ─── Better man pages ────────────────────────────────────────────────
+export MANPAGER="sh -c 'col -bx | $(command -v bat || command -v batcat) -l man -p'"
+
+# ─── Autosuggestions ─────────────────────────────────────────────────
+for f in /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+         /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh; do
+  [ -f "$f" ] && source "$f" && break
+done
 
 # ─── NVM ─────────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-
-# ─── Better man pages ────────────────────────────────────────────────
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # ─── pyenv ───────────────────────────────────────────────────────────
 export PYENV_ROOT="$HOME/.pyenv"
@@ -34,26 +45,27 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
 
-# ─── Autosuggestions ─────────────────────────────────────────────────
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 # ─── pnpm ────────────────────────────────────────────────────────────
 export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+if [ -d "$PNPM_HOME" ]; then
+  case ":$PATH:" in
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
+  esac
+fi
 
 # ─── console-ninja ───────────────────────────────────────────────────
-PATH=~/.console-ninja/.bin:$PATH
+[ -d ~/.console-ninja/.bin ] && PATH=~/.console-ninja/.bin:$PATH
 
 # ─── bun ─────────────────────────────────────────────────────────────
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+if [ -d "$HOME/.bun" ]; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+  [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+fi
 
 # ─── uv ──────────────────────────────────────────────────────────────
-. "$HOME/.local/bin/env"
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 # ─── Prompt (Warp-style) ─────────────────────────────────────────────
 # Resolve dotfiles dir from the symlink: ~/.zshrc → dotfiles/zsh/zshrc
@@ -66,6 +78,3 @@ fi
 _DOTFILES_DIR="$(cd "$(dirname "$_DOTFILES_ZSHRC")/.." && pwd)"
 source "$_DOTFILES_DIR/prompt.zsh"
 unset _DOTFILES_ZSHRC _DOTFILES_DIR
-
-# bun completions
-[ -s "/Users/maurodaprotis/.bun/_bun" ] && source "/Users/maurodaprotis/.bun/_bun"

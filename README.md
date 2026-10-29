@@ -16,7 +16,7 @@ The installer is idempotent — safe to re-run anytime. Existing files are backe
 
 | Directory      | What it configures                                                        |
 | -------------- | ------------------------------------------------------------------------- |
-| `zsh/`         | Oh My Zsh config, aliases, NVM, pyenv, pnpm, Bun, uv                     |
+| `zsh/`         | Minimal Oh My Zsh (git plugin), aliases, optional NVM/pyenv/pnpm/Bun/uv  |
 | `git/`         | `.gitconfig` (aliases, LFS, ff-only pulls) and global `.gitignore`        |
 | `gh/`          | GitHub CLI config                                                         |
 | `claude/`      | Claude Code `settings.json`                                               |

@@ -1,5 +1,3 @@
-[core]
-  editor = code --wait
 [user]
 	name = Mauro Daprotis
 	email = maurodaprotis@gmail.com

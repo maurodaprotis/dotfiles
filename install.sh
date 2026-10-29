@@ -56,6 +56,25 @@ echo ""
 echo "Source: $DOTFILES_DIR"
 echo ""
 
+# ─── 0. Packages ─────────────────────────────────────────────────────
+echo "── Packages ──"
+if [[ "$(uname)" == "Darwin" ]]; then
+  if ! command -v brew >/dev/null && [[ ! -x /opt/homebrew/bin/brew ]]; then
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  brew bundle --file="$DOTFILES_DIR/Brewfile"
+else
+  sudo apt-get update -qq
+  sudo apt-get install -y zsh git curl bat eza zsh-autosuggestions neovim gh
+  [[ "$(basename "$SHELL")" == "zsh" ]] || sudo chsh -s "$(command -v zsh)" "$USER"
+fi
+
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+  git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
+fi
+echo ""
+
 # ─── 1. ZSH ──────────────────────────────────────────────────────────
 echo "── ZSH ──"
 symlink "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
@@ -77,42 +96,25 @@ echo "── Claude Code ──"
 symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
 echo ""
 
-# ─── 5. SSH ─────────────────────────────────────────────────────────
-echo "── SSH ──"
-symlink "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
-echo ""
-
-# ─── 6. Fonts ───────────────────────────────────────────────────────
-echo "── Fonts ──"
-if [[ "$(uname)" == "Darwin" ]]; then
-  font_dir="$HOME/Library/Fonts"
-else
-  font_dir="$HOME/.local/share/fonts"
-fi
-mkdir -p "$font_dir"
-for font in "$DOTFILES_DIR"/fonts/*.otf; do
-  target="$font_dir/$(basename "$font")"
-  if [[ -f "$target" ]]; then
-    echo "  ✓ $(basename "$font") (already installed)"
-  else
-    cp "$font" "$target"
-    echo "  → $(basename "$font")"
-  fi
-done
-echo ""
-
-# ─── 7. Templates (secrets — copy, don't symlink) ───────────────────
+# ─── 5. Templates (secrets — copy, don't symlink) ───────────────────
 echo "── Templates (files with secrets) ──"
 copy_template "$DOTFILES_DIR/templates/npmrc.template" "$HOME/.npmrc"
-copy_template "$DOTFILES_DIR/templates/mcp.json.template" "$HOME/.cursor/mcp.json"
 echo ""
 
-# ─── 8. macOS Defaults ─────────────────────────────────────────────
+# ─── 6. macOS only: SSH, fonts, Cursor MCP, system defaults ─────────
 if [[ "$(uname)" == "Darwin" ]]; then
+  echo "── macOS ──"
+  symlink "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
+  copy_template "$DOTFILES_DIR/templates/mcp.json.template" "$HOME/.cursor/mcp.json"
+  for font in "$DOTFILES_DIR"/fonts/*.otf; do
+    target="$HOME/Library/Fonts/$(basename "$font")"
+    [[ -f "$target" ]] || { cp "$font" "$target"; echo "  → $(basename "$font")"; }
+  done
   "$DOTFILES_DIR/macos/defaults.sh"
+  echo ""
 fi
 
-# ─── 9. AI Skills & Agents ──────────────────────────────────────────
+# ─── 7. AI Skills & Agents ──────────────────────────────────────────
 echo "── AI Skills & Agents (global) ──"
 "$DOTFILES_DIR/ai/setup.sh" --all "$HOME"
 symlink "$DOTFILES_DIR/ai/skills-lock.json" "$HOME/.agents/.skill-lock.json"
