@@ -60,6 +60,7 @@ echo ""
 echo "── Packages ──"
 if [[ "$(uname)" == "Darwin" ]]; then
   if ! command -v brew >/dev/null && [[ ! -x /opt/homebrew/bin/brew ]]; then
+    sudo -v  # NONINTERACTIVE install can't prompt for the password
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
   eval "$(/opt/homebrew/bin/brew shellenv)"
