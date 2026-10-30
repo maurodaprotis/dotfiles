@@ -23,8 +23,20 @@ _P_FG_ORANGE="%F{215}"
 _P_FG_MAGENTA="%F{176}"
 _P_FG_RED="%F{203}"
 
+# ─── Host color (distinct per machine; override with PROMPT_HOST_COLOR) ──
+_prompt_host_color() {
+  [[ -n "$PROMPT_HOST_COLOR" ]] && { echo "$PROMPT_HOST_COLOR"; return }
+  local palette=(203 215 222 114 116 117 176) c h=0
+  for c in ${(s::)${HOST%%.*}}; do (( h = (h * 31 + #c) % 65521 )); done
+  echo "${palette[h % ${#palette} + 1]}"
+}
+_P_HOST_COLOR="%F{$(_prompt_host_color)}"
+_P_CHAR_COLOR="%F{243}"
+[[ -n "$SSH_CONNECTION" ]] && _P_CHAR_COLOR="$_P_HOST_COLOR"
+
 # ─── Nerd Font Icons ─────────────────────────────────────────────────
 _ICON_NODE="󰎙"
+_ICON_HOST="󰒋"
 _ICON_PYTHON="󰌠"
 _ICON_FOLDER="󰉋"
 _ICON_BRANCH=""
@@ -64,6 +76,12 @@ _seg() {
 }
 
 # ─── Situational Segments ────────────────────────────────────────────
+
+# Host — only over SSH, so remote boxes stand out
+_prompt_host() {
+  [[ -z "$SSH_CONNECTION" ]] && return
+  _seg "$_P_HOST_COLOR" "$_ICON_HOST" "${HOST%%.*}"
+}
 
 # Node or Python version — only in projects that use them
 _prompt_runtime() {
@@ -194,6 +212,7 @@ _prompt_exitcode() {
 _build_prompt() {
   # Line 1: context segments (runtime, dir, git, cloud, etc.)
   local line1=""
+  line1+="$(_prompt_host)"
   line1+="$(_prompt_runtime)"
   line1+="$(_prompt_venv)"
   line1+="$(_prompt_dir)"
@@ -221,5 +240,5 @@ precmd() {
   _PROMPT_LAST_EXIT=$?
   _prompt_timer_stop
   PROMPT='$(_build_prompt)
-%F{243}❯%f '
+${_P_CHAR_COLOR}❯%f '
 }

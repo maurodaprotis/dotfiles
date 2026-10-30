@@ -67,7 +67,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   brew bundle --file="$DOTFILES_DIR/Brewfile"
 else
   sudo apt-get update -qq
-  sudo apt-get install -y zsh git curl bat eza zsh-autosuggestions neovim gh
+  sudo apt-get install -y zsh git curl bat eza zsh-autosuggestions neovim gh figlet
   [[ "$(basename "$SHELL")" == "zsh" ]] || sudo chsh -s "$(command -v zsh)" "$USER"
 fi
 

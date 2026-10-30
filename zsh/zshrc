@@ -67,6 +67,16 @@ fi
 # ─── uv ──────────────────────────────────────────────────────────────
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
+# ─── Local bin (claude, codex, t3, uv) ───────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+
+# Lima VMs append this block to ~/.zshrc unless it is already present
+# Lima BEGIN
+# Make sure iptables and mount.fuse3 are available
+PATH="$PATH:/usr/sbin:/sbin"
+export PATH
+# Lima END
+
 # ─── Prompt (Warp-style) ─────────────────────────────────────────────
 # Resolve dotfiles dir from the symlink: ~/.zshrc → dotfiles/zsh/zshrc
 _DOTFILES_ZSHRC="${(%):-%N}"
@@ -77,4 +87,10 @@ if [[ -L "$HOME/.zshrc" ]]; then
 fi
 _DOTFILES_DIR="$(cd "$(dirname "$_DOTFILES_ZSHRC")/.." && pwd)"
 source "$_DOTFILES_DIR/prompt.zsh"
+
+# ─── SSH splash (once per session, not inside tmux) ──────────────────
+if [[ -n "$SSH_CONNECTION" && -z "$TMUX" && -z "$_MOTD_SHOWN" && -t 1 ]]; then
+  export _MOTD_SHOWN=1
+  "$_DOTFILES_DIR/zsh/motd.sh"
+fi
 unset _DOTFILES_ZSHRC _DOTFILES_DIR
