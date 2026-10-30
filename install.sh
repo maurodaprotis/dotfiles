@@ -67,7 +67,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   brew bundle --file="$DOTFILES_DIR/Brewfile"
 else
   sudo apt-get update -qq
-  sudo apt-get install -y zsh git curl bat eza zsh-autosuggestions neovim gh figlet
+  sudo apt-get install -y zsh git curl bat eza zsh-autosuggestions neovim gh fastfetch
   [[ "$(basename "$SHELL")" == "zsh" ]] || sudo chsh -s "$(command -v zsh)" "$USER"
 fi
 
@@ -95,6 +95,11 @@ echo ""
 # ─── 4. Claude Code ─────────────────────────────────────────────────
 echo "── Claude Code ──"
 symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+echo ""
+
+# ─── fastfetch (SSH splash) ─────────────────────────────────────────
+echo "── fastfetch ──"
+symlink "$DOTFILES_DIR/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 echo ""
 
 # ─── 5. Templates (secrets — copy, don't symlink) ───────────────────
