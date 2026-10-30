@@ -1,6 +1,7 @@
 {
   "includeCoAuthoredBy": false,
-  "model": "claude-fable-5[1m]",
+  "model": "fable[1m]",
   "effortLevel": "high",
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "theme": "dark"
 }

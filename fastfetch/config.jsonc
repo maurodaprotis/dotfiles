@@ -16,8 +16,8 @@
     "cpu",
     "memory",
     { "type": "disk", "folders": "/" },
-    { "type": "localip", "key": "Tailnet", "namePrefix": "tailscale" },
-    { "type": "localip", "key": "Local IP", "showIpv4": true, "compact": true },
+    { "type": "localip", "key": "Tailnet", "namePrefix": "tailscale", "defaultRouteOnly": false, "showPrefixLen": false },
+    { "type": "localip", "key": "Local IP", "compact": true },
     "break",
     "colors"
   ]
